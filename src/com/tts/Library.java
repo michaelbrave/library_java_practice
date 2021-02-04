@@ -1,7 +1,60 @@
 package com.tts;
+import java.util.ArrayList;
 
 public class Library {
     // Add the missing implementation to this class
+    private String address;
+    private ArrayList<Book> inventory = new ArrayList<>();
+
+    public Library(String address) {
+        this.address = address;
+    }
+
+    public void printAddress() {
+        System.out.println(this.address);
+    }
+
+    public void printAvailableBooks() {
+        if(inventory.size() == 0) System.out.println("No books found in catalog.");
+
+        for (Book book: inventory) {
+            if(!book.isBorrowed()) System.out.println(book.getTitle());
+        }
+    }
+
+    public void addBook(Book book){
+        if(inventory.contains(book)){
+            System.out.println("This library already has " + book.getTitle() + ". Please try a different book.");
+        }else{
+            inventory.add(book);
+        }
+    }
+
+    public void borrowBook(String bookTitle){
+        for (Book book: inventory) {
+            if(book.getTitle().equals(bookTitle) && !book.isBorrowed()) {
+                System.out.println("You successfully borrowed " + bookTitle);
+                book.borrowed();
+                break;
+            }else if(book.getTitle().equals(bookTitle) && book.isBorrowed()){
+                System.out.println("Sorry, this book is already being borrowed.");
+            }else{
+                continue;
+            }
+            System.out.println("Sorry, This Book was not found in our catalog.");
+        }
+    }
+    public void returnBook(String bookTitle){
+        for (Book book: inventory) {
+            if(book.getTitle().equals(bookTitle) && book.isBorrowed()) {
+                System.out.println("You successfully returned " + bookTitle);
+                book.returned();
+            }
+        }
+    }
+    public static void printOpeningHours(){
+        System.out.println("9AM - 5PM");
+    }
 
     public static void main(String[] args) {
         // Create two libraries
